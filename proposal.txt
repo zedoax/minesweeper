@@ -1,0 +1,101 @@
+# 
+# Names: Elijah Bendinsky, AJ Nagashima
+#
+# CSCI-541 Project Proposal
+#
+
+Project Name: Minesweeper
+
+Overview: The project we are proposing is to create from the ground up, a game of minesweeper.  
+This project will include several design elements, much of what we have learned. 
+It will also include external research, and learning about several functions of haskell
+we have not encountered yet.
+
+Summary:
+The goal of the game minesweeper is to create a grid game state where bombs and numbers
+are placed in a manner that allows the user to select tiles and overturn them until 
+all numbers are revealed or a bomb is revealed.
+The learning objectives are to learn how a graph can be stored and used in a functional 
+language, and how/if possible to apply a graph monadically to perform a BFS over a graph
+
+User Stories:
+* As a user, I should be able to run the program as an executable or through a cli
+* As a user, I should be able to select a board size for my game of minesweeper
+* As a user, I should be able to select a difficulty that determines the ratio of 
+  bombs to tiles on the game board
+* As a user, I should be able to see a board visually displayed throughout the game
+* As a user, I should be able to input a coordinate and receive feedback from the game
+  -> As a user, if I input an invalid coordinate: I should get a graceful error back
+  -> As a user, if I input a valid coordinate: Necessary tiles should be revealed
+* As a user, if the tile I revealed contains a bomb, I should be told I lost
+  -> As a user, after losing, I should be presented with the option to try again or exit
+    -> As a user, If I select to try again, I should be sent to the home screen
+    -> As a user, If I select exit, The program should terminate
+* As a user, if all tiles that are not bombs have been revealed, I should be told I won
+  -> As a user, after winning, I should be presented with a win message, and the option
+     to exit the game
+    -> As a user, if I select exit, the program should terminate.
+
+Intended Components:
+
+|-------|         |-------|         |------|
+|       |         |       |         |      |
+| Graph | >-----< | Model | ------> | View |
+|       |         |       |         |      |
+|-------|         |-------|         |------|
+
+                      ^                |
+                      |                |
+                      |                |
+                      |                |
+                                       |
+                |------------|         |
+                |            |         |
+                | Controller | <-------|
+                |            |
+                |------------|
+
+Graph - 
+Data structure module for classing and implementation of a graph
+Includes bfs application function and folding depending on need
+
+Model - 
+Core game logic.  Contains the board with a graph intermediary, functions for:
+* flipping a tile
+  -> error state of tile is a bomb
+  -> ok state of tile is a number
+  -> BFS state of tile has default state
+* checking if the game is in a win condition
+* generating and populating a board
+* method to update the view
+
+View - 
+Showing the game board and accepting user input.  Functions for:
+* displaying a board
+* handle user input
+* input a tile flip
+* input a game start
+* main game loop
+* display win message
+* display losing message
+
+Controller -
+Processing input from view and changing model state.  Functions for:
+* processing a tile flip
+* processing a game start
+* processing a restart
+* processing an exit
+* calling model functions
+
+Testing:
+All methods should be tested.  Critical functionality that absolutely must be tested is specifically:
+* Board generation
+* Detecting win state
+* Flipping a tile
+* Outputting a board
+
+Checkpoint Progress:
+By the checkpoint we intend to have the Graph Library, Model, and View complete.
+We should be able to generate a valid game state, complete a game through individual calls, 
+view a game state, send input into the game loop, and update the view when the game state changes.
+Required functionality that should be left would be connecting the main game loop to the controller in order for the game to progress through view interaction.
